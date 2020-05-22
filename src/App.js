@@ -423,6 +423,7 @@ class Board extends React.Component {
             alert("Esti Castigator!!!");
             clearInterval(this.state.interval);
             // this.incrementTime();
+            sendScoreToAPI();
         }
 
         this.setState({
@@ -457,6 +458,7 @@ class Board extends React.Component {
                 alert("Esti Castigator!!!");
                 // this.incrementTime();
                 clearInterval(this.state.interval)
+                sendScoreToAPI(val);
                 
             }
         }
@@ -525,6 +527,42 @@ class Game extends React.Component {
     );
   }
 }
+
+
+
+var sendScoreToAPI = (val) => {
+    //get player name from browser prompt
+    var playerName = prompt("Congrats for winning the game! Please enter your name: ", "Victor");
+    if (playerName != null) {
+        var self=this
+      var dataToSave = {
+        //replace 10 with your actual variable (probably this.state.gameScore or this.state.time)
+        playerName: playerName,
+        playerScore: val
+        //currentTime: new Date()
+      };
+      // Actual API call
+      fetch(
+        "https://localhost:44327/api/MineSweeper", // replace with the url to your API
+        {method: 'POST', 
+        headers: {
+            'Content-Type': 'application/json'
+         },
+        body: JSON.stringify(dataToSave)}
+        )
+        .then(res => res.json())
+        .then(
+          (result) => {
+            alert('GG '+playerName + "! Ai un scor de "+val);
+          },
+          // Note: it's important to handle errors here
+          (error) => {
+            alert('Bad API call');
+            console.log(error);
+          }
+        )
+    }
+  }
 
 // Cell.propTypes = {
 //   value: PropTypes.func
