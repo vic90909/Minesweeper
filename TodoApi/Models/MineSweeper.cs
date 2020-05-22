@@ -9,8 +9,10 @@ namespace TodoApi.Models
     {
         public long id { get; set; }
 
+        public long Score { get; set; }
+
         public string Nume { get; set; }
 
-        public long Score { get; set; }
+        
     }
 }
